@@ -20,8 +20,8 @@ const PaymentDetails = mongoose.model('PatmentDetail', PaymentDetailsSchema);
 router.post('/orders', async (req, res) => {
   try {
     const instance = new Razorpay({
-      key_id: process.env.RAZORPAY_KEY_ID, // YOUR RAZORPAY KEY
-      key_secret: process.env.RAZORPAY_SECRET, // YOUR RAZORPAY SECRET
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_SECRET,
     });
 
     const options = {
@@ -49,7 +49,7 @@ router.post('/success', async (req, res) => {
       razorpaySignature,
     } = req.body;
 
-    const shasum = crypto.createHmac('sha256', '<YOUR RAZORPAY SECRET>');
+    const shasum = crypto.createHmac('sha256', 'oXY5PFyC1gYbjMQi1HGoYTw9');
     shasum.update(`${orderCreationId}|${razorpayPaymentId}`);
     const digest = shasum.digest('hex');
 
