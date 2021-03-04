@@ -30,16 +30,11 @@ function App() {
 
     // FETCH ALL THE PLANS FIRST
 
-    const validTill = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 50)
-    ); // calculate the valid till date according to the plan and totalCount
-
     const result = await axios.post('http://localhost:7001/payment/subscribe', {
       clientId: '601c13682a018714f4d63bdb',
       planId: 'plan_GhhcZUqG3dz49W',
-      totalCount: 50, // how many times the client will be charged
+      totalCount: 10, // how many times the client will be charged
       quantity: 4, // total_amount = base_amount_in_plan * quantity
-      validTill,
     });
 
     if (!result) {
@@ -94,18 +89,13 @@ function App() {
   }
 
   async function updateSubscription() {
-    const validTill = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 10)
-    );
-
     const result = await axios.post(
       `http://localhost:7001/payment/subscription/update/601c13682a018714f4d63bdb`,
       {
         updateAtCycleEnd: false,
-        planId: 'plan_GhhcZUqG3dz49W',
+        planId: 'plan_GhhaCLOaRbbcEQ',
         remainingCount: 9, // how many times the client will be charged
-        quantity: 10, // total_amount = base_amount_in_plan * quantity
-        validTill,
+        quantity: 5, // total_amount = base_amount_in_plan * quantity
       }
     );
 
