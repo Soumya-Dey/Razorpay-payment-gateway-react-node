@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
-const URL =
-  'mongodb+srv://admin-soumya:itsmemongo12345@shopchat-dev-cluster.zh7dj.mongodb.net/razorpayDemo?retryWrites=true&w=majority';
+const URL = '<MONGO CONNECTION URI>';
 
 const connectDb = () => {
   mongoose
