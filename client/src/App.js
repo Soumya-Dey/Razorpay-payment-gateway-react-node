@@ -28,13 +28,10 @@ function App() {
       return;
     }
 
-    const validTill = new Date(new Date().setMonth(new Date().getMonth() + 1));
-
     const result = await axios.post('http://localhost:7001/payment/orders', {
       clientId: '601c13682a018714f4d63bdb',
       amount: 500,
       currency: 'INR',
-      validTill,
     });
 
     if (!result) {
