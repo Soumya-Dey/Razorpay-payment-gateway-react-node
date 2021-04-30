@@ -1,7 +1,7 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
 
-const URL = process.env.MONGO_URI;
+const URL =
+  'mongodb+srv://admin-soumya:itsmemongo12345@shopchat-dev-cluster.zh7dj.mongodb.net/razorpayDemo?retryWrites=true&w=majority';
 
 const connectDb = () => {
   mongoose
