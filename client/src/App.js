@@ -28,17 +28,12 @@ function App() {
       return;
     }
 
-    // FETCH ALL THE PLANS FIRST
+    const validTill = new Date(new Date().setMonth(new Date().getMonth() + 1));
 
-    const validTill = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    ); // calculate the valid till date according to the plan and totalCount
-
-    const result = await axios.post('http://localhost:7001/payment/subscribe', {
+    const result = await axios.post('http://localhost:7001/payment/orders', {
       clientId: '601c13682a018714f4d63bdb',
-      planId: 'plan_GhhcZUqG3dz49W',
-      totalCount: 6, // how many times the client will be charged
-      quantity: 2, // total_amount = base_amount_in_plan * quantity
+      amount: 500,
+      currency: 'INR',
       validTill,
     });
 
@@ -49,22 +44,25 @@ function App() {
     console.log('1st step', result.data);
 
     const {
-      subscription: { id: subscriptionId },
+      order: { amount, id: order_id, currency },
       clientId,
     } = result.data;
 
     const options = {
       key: 'rzp_test_rUGcQqfD4qZhGp', // Enter the Key ID generated from the Dashboard
-      subscription_id: subscriptionId,
+      amount: amount.toString(),
+      currency: currency,
       name: 'Soumya Corp.',
       description: 'Test Transaction',
       image: { logo },
+      order_id: order_id,
       handler: async function (response) {
         console.log('response from razorpay', response);
         const data = {
           clientId,
+          orderCreationId: order_id,
           razorpayPaymentId: response.razorpay_payment_id,
-          subscriptionId: response.razorpay_subscription_id,
+          razorpayOrderId: response.razorpay_order_id,
           razorpaySignature: response.razorpay_signature,
         };
 
@@ -99,7 +97,7 @@ function App() {
         <img src={logo} className='App-logo' alt='logo' />
         <p>Buy React now!</p>
         <button className='App-link' onClick={displayRazorpay}>
-          Subscribe
+          Pay ₹500
         </button>
       </header>
     </div>
