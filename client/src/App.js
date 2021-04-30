@@ -28,25 +28,17 @@ function App() {
       return;
     }
 
-    const result = await axios.post('http://localhost:7001/payment/orders', {
-      clientId: '601c13682a018714f4d63bdb',
-      amount: 500,
-      currency: 'INR',
-    });
+    const result = await axios.post('/payment/orders');
 
     if (!result) {
       alert('Server error. Are you online?');
       return;
     }
-    console.log('1st step', result.data);
 
-    const {
-      order: { amount, id: order_id, currency },
-      clientId,
-    } = result.data;
+    const { amount, id: order_id, currency } = result.data;
 
     const options = {
-      key: 'rzp_test_rUGcQqfD4qZhGp', // Enter the Key ID generated from the Dashboard
+      key: '<YOUR RAZORPAY KEY>', // Enter the Key ID generated from the Dashboard
       amount: amount.toString(),
       currency: currency,
       name: 'Soumya Corp.',
@@ -54,30 +46,24 @@ function App() {
       image: { logo },
       order_id: order_id,
       handler: async function (response) {
-        console.log('response from razorpay', response);
         const data = {
-          clientId,
           orderCreationId: order_id,
           razorpayPaymentId: response.razorpay_payment_id,
           razorpayOrderId: response.razorpay_order_id,
           razorpaySignature: response.razorpay_signature,
         };
 
-        const result = await axios.post(
-          'http://localhost:7001/payment/success',
-          data
-        );
-        console.log('2nd step', result.data);
+        const result = await axios.post('/payment/success', data);
 
         alert(result.data.msg);
       },
       prefill: {
-        name: 'Soumya Dey',
-        email: 'SoumyaDey@example.com',
+        name: '<YOUR NAME>',
+        email: 'example@example.com',
         contact: '9999999999',
       },
       notes: {
-        address: 'Soumya Dey',
+        address: 'Example Corporate Office',
       },
       theme: {
         color: '#61dafb',
