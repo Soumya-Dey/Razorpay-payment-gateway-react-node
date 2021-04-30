@@ -31,14 +31,14 @@ function App() {
     // FETCH ALL THE PLANS FIRST
 
     const validTill = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 50)
+      new Date().setFullYear(new Date().getFullYear() + 1)
     ); // calculate the valid till date according to the plan and totalCount
 
     const result = await axios.post('http://localhost:7001/payment/subscribe', {
       clientId: '601c13682a018714f4d63bdb',
       planId: 'plan_GhhcZUqG3dz49W',
-      totalCount: 50, // how many times the client will be charged
-      quantity: 4, // total_amount = base_amount_in_plan * quantity
+      totalCount: 6, // how many times the client will be charged
+      quantity: 2, // total_amount = base_amount_in_plan * quantity
       validTill,
     });
 
@@ -93,44 +93,6 @@ function App() {
     paymentObject.open();
   }
 
-  async function updateSubscription() {
-    const validTill = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 10)
-    );
-
-    const result = await axios.post(
-      `http://localhost:7001/payment/subscription/update/601c13682a018714f4d63bdb`,
-      {
-        updateAtCycleEnd: false,
-        planId: 'plan_GhhcZUqG3dz49W',
-        remainingCount: 9, // how many times the client will be charged
-        quantity: 10, // total_amount = base_amount_in_plan * quantity
-        validTill,
-      }
-    );
-
-    if (!result) {
-      alert('Server error. Are you online?');
-      return;
-    }
-    console.log('1st step', result.data);
-  }
-
-  async function cancelSubscription() {
-    const result = await axios.post(
-      `http://localhost:7001/payment/subscription/cancel/601c13682a018714f4d63bdb`,
-      {
-        cancelAtCycleEnd: false,
-      }
-    );
-
-    if (!result) {
-      alert('Server error. Are you online?');
-      return;
-    }
-    console.log('1st step', result.data);
-  }
-
   return (
     <div className='App'>
       <header className='App-header'>
@@ -138,14 +100,6 @@ function App() {
         <p>Buy React now!</p>
         <button className='App-link' onClick={displayRazorpay}>
           Subscribe
-        </button>
-
-        <button className='App-link' onClick={updateSubscription}>
-          Update Subscription
-        </button>
-
-        <button className='App-link' onClick={cancelSubscription}>
-          Cancel Subscription
         </button>
       </header>
     </div>
