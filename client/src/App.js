@@ -30,11 +30,33 @@ function App() {
 
     // FETCH ALL THE PLANS FIRST
 
-    const result = await axios.post('http://localhost:7001/payment/subscribe', {
-      clientId: '601c13682a018714f4d63bdb',
-      planId: 'plan_GhhaCLOaRbbcEQ',
-      totalCount: 24, // how many times the client will be charged
-      quantity: 2, // total_amount = base_amount_in_plan * quantity
+    // const result = await axios({
+    //   url: 'https://api.zervise.com/payment/subscription',
+    //   method: 'POST',
+    //   data: {
+    //     planId: 'plan_HKUrjjRFDJ9b1r',
+    //     totalCount: 24, // how many times the client will be charged
+    //     quantity: 10, // total_amount = base_amount_in_plan * quantity
+    //     // renewing: true,
+    //   },
+    //   headers: {
+    //     'auth-token':
+    //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb24iOnsiaWQiOiI2MDk5NTk0YmMwODdjNmMxMjliZWQ0NzQiLCJjbGllbnRJZCI6IjYwOTk1Y2JkZmU2NmFkNTBiNzZkNWNhOCIsInJvbGUiOiJvd25lciJ9LCJpYXQiOjE2MjM2ODUwMDcsImV4cCI6MTYyNDU0OTAwN30.Oyabi1BDVrg8COrD8AuW7yWg5gYn1zipfvAkR-dAfz4',
+    //   },
+    // });
+    const result = await axios({
+      url: 'http://localhost:7001/payment/subscription',
+      method: 'POST',
+      data: {
+        planId: 'plan_HKUrjjRFDJ9b1r',
+        totalCount: 24, // how many times the client will be charged
+        quantity: 10, // total_amount = base_amount_in_plan * quantity
+        // renewing: true,
+      },
+      headers: {
+        'auth-token':
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb24iOnsiaWQiOiI2MDdhOWRiYjE3NTY2MDE4ZWM1YzZmNDkiLCJjbGllbnRJZCI6IjYwN2E5ZGI4MTc1NjYwMThlYzVjNmYzYiIsInJvbGUiOiJvd25lciJ9LCJpYXQiOjE2MjQwMzE0MDUsImV4cCI6MTYyNDg5NTQwNX0.rpD2xz99wdLjmADxFV1S3i2NGBY_fT8MrPoV9tWI1Ow',
+      },
     });
 
     if (!result) {
@@ -49,7 +71,7 @@ function App() {
     } = result.data;
 
     const options = {
-      key: 'rzp_test_rUGcQqfD4qZhGp', // Enter the Key ID generated from the Dashboard
+      key: 'rzp_test_s05xmzqXYuRglI', // Enter the Key ID generated from the Dashboard
       subscription_id: subscriptionId,
       name: 'Soumya Corp.',
       description: 'Test Transaction',
@@ -63,10 +85,24 @@ function App() {
           razorpaySignature: response.razorpay_signature,
         };
 
-        const result = await axios.post(
-          'http://localhost:7001/payment/success',
-          data
-        );
+        // const result = await axios({
+        //   url: 'https://api.zervise.com/payment/success',
+        //   method: 'POST',
+        //   data,
+        //   headers: {
+        //     'auth-token':
+        //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb24iOnsiaWQiOiI2MDk5NTk0YmMwODdjNmMxMjliZWQ0NzQiLCJjbGllbnRJZCI6IjYwOTk1Y2JkZmU2NmFkNTBiNzZkNWNhOCIsInJvbGUiOiJvd25lciJ9LCJpYXQiOjE2MjM2ODUwMDcsImV4cCI6MTYyNDU0OTAwN30.Oyabi1BDVrg8COrD8AuW7yWg5gYn1zipfvAkR-dAfz4',
+        //   },
+        // });
+        const result = await axios({
+          url: 'http://localhost:7001/payment/success',
+          method: 'POST',
+          data,
+          headers: {
+            'auth-token':
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb24iOnsiaWQiOiI2MDdhOWRiYjE3NTY2MDE4ZWM1YzZmNDkiLCJjbGllbnRJZCI6IjYwN2E5ZGI4MTc1NjYwMThlYzVjNmYzYiIsInJvbGUiOiJvd25lciJ9LCJpYXQiOjE2MjQwMzE0MDUsImV4cCI6MTYyNDg5NTQwNX0.rpD2xz99wdLjmADxFV1S3i2NGBY_fT8MrPoV9tWI1Ow',
+          },
+        });
         console.log('2nd step', result.data);
 
         alert(result.data.msg);
@@ -89,15 +125,29 @@ function App() {
   }
 
   async function updateSubscription() {
-    const result = await axios.post(
-      `http://localhost:7001/payment/subscription/update/601c13682a018714f4d63bdb`,
-      {
+    const result = await axios({
+      url: 'http://localhost:7001/payment/subscription',
+      method: 'PATCH',
+      data: {
         updateAtCycleEnd: false,
-        planId: 'plan_GhhcZUqG3dz49W',
-        remainingCount: 3, // how many times the client will be charged
-        quantity: 5, // total_amount = base_amount_in_plan * quantity
-      }
-    );
+        planId: 'plan_HKUrjjRFDJ9b1r',
+        // remainingCount: 3, // how many times the client will be charged
+        quantity: 4, // total_amount = base_amount_in_plan * quantity
+      },
+      headers: {
+        'auth-token':
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb24iOnsiaWQiOiI2MDdhOWRiYjE3NTY2MDE4ZWM1YzZmNDkiLCJjbGllbnRJZCI6IjYwN2E5ZGI4MTc1NjYwMThlYzVjNmYzYiIsInJvbGUiOiJvd25lciJ9LCJpYXQiOjE2MjQwMzE0MDUsImV4cCI6MTYyNDg5NTQwNX0.rpD2xz99wdLjmADxFV1S3i2NGBY_fT8MrPoV9tWI1Ow',
+      },
+    });
+    // const result = await axios.post(
+    //   `http://localhost:7001/payment/subscription/update/607a9db817566018ec5c6f3b`,
+    //   {
+    //     updateAtCycleEnd: false,
+    //     planId: 'plan_GhhaCLOaRbbcEQ',
+    //     remainingCount: 3, // how many times the client will be charged
+    //     quantity: 5, // total_amount = base_amount_in_plan * quantity
+    //   }
+    // );
 
     if (!result) {
       alert('Server error. Are you online?');
@@ -107,12 +157,23 @@ function App() {
   }
 
   async function cancelSubscription() {
-    const result = await axios.post(
-      `http://localhost:7001/payment/subscription/cancel/601c13682a018714f4d63bdb`,
-      {
+    const result = await axios({
+      url: 'http://localhost:7001/payment/subscription',
+      method: 'DELETE',
+      data: {
         cancelAtCycleEnd: false,
-      }
-    );
+      },
+      headers: {
+        'auth-token':
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJzb24iOnsiaWQiOiI2MDdhOWRiYjE3NTY2MDE4ZWM1YzZmNDkiLCJjbGllbnRJZCI6IjYwN2E5ZGI4MTc1NjYwMThlYzVjNmYzYiIsInJvbGUiOiJvd25lciJ9LCJpYXQiOjE2MjQwMzE0MDUsImV4cCI6MTYyNDg5NTQwNX0.rpD2xz99wdLjmADxFV1S3i2NGBY_fT8MrPoV9tWI1Ow',
+      },
+    });
+    // const result = await axios.post(
+    //   `http://localhost:7001/payment/subscription/cancel/607a9db817566018ec5c6f3b`,
+    //   {
+    //     cancelAtCycleEnd: false,
+    //   }
+    // );
 
     if (!result) {
       alert('Server error. Are you online?');
